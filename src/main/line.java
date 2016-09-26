@@ -1,6 +1,6 @@
 package main;
 
-public class line {
+public class Line {
 	
 	
 	/**
@@ -8,7 +8,7 @@ public class line {
 	 * @param _start 시작점
 	 * @param _end 끝점
 	 */
-	public line(DoublePair _start, DoublePair _end) {
+	public Line(DoublePair _start, DoublePair _end) {
 		this.start = _start;
 		this.end = _end;
 		this.slope = calSlope(_start, _end);
@@ -20,7 +20,7 @@ public class line {
 	 * @param other
 	 * @return
 	 */
-	public DoublePair hasIntersect(line other) {
+	public DoublePair hasIntersect(Line other) {
 		if (this.slope == other.slope) {
 			return null;
 		} else {
@@ -44,7 +44,7 @@ public class line {
 	}
 	
 
-	private DoublePair start, end;
+	public DoublePair start, end;
 	private double slope;
 	
 	private double calSlope(DoublePair a, DoublePair b) {
@@ -55,7 +55,7 @@ public class line {
 		return (Math.atan2(dy, dx)*180)/Math.PI;
 	}
 	
-	private double calX (line a, line b) {
+	private double calX (Line a, Line b) {
 		double x1 = a.start.x;
 		double y1 = a.start.y;
 		double x2 = a.end.x;
@@ -69,7 +69,7 @@ public class line {
 				/((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)));
 	}
 	
-	private double calY (line a, line b) {
+	private double calY (Line a, Line b) {
 		double x1 = a.start.x;
 		double y1 = a.start.y;
 		double x2 = a.end.x;
