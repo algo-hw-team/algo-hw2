@@ -1,5 +1,7 @@
 package test;
 
+import main.skyline.SkyLine;
+import main.skyline.SkyLineMerger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -8,6 +10,9 @@ import main.*;
 import java.util.ArrayList;
 
 public class SkyLineTest {
+
+    SkyLineMerger merger = new SkyLineMerger();
+
     @Test
     public void testMerge() throws Exception {
         ArrayList<Line> list1 = new ArrayList<>();
@@ -29,7 +34,7 @@ public class SkyLineTest {
         SkyLine s1 = new SkyLine(list1);
         SkyLine s2 = new SkyLine(list2);
 
-        SkyLine merged = s1.merge(s2);
+        SkyLine merged = merger.merge(s1, s2);
 
         ArrayList<Line> lines = merged.getLines();
 
@@ -61,7 +66,7 @@ public class SkyLineTest {
         SkyLine s1 = new SkyLine(list1);
         SkyLine s2 = new SkyLine(list2);
 
-        SkyLine merged = s1.merge(s2);
+        SkyLine merged = merger.merge(s1, s2);
 
         merged.print();
     }

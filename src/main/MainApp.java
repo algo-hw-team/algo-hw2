@@ -1,5 +1,8 @@
 package main;
 
+import main.skyline.SkyLine;
+import main.skyline.SkyLineMerger;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
@@ -93,6 +96,8 @@ public class MainApp {
 		System.out.println(builder.toString());
 		*/
 	}
+
+	private static SkyLineMerger merger = new SkyLineMerger();
 	
 	private static SkyLine mergeSkyLine (ArrayList<SkyLine> skyLineList) {
 		
@@ -104,7 +109,7 @@ public class MainApp {
 		SkyLine leftSkyLine = mergeSkyLine(new ArrayList<>(skyLineList.subList(0, midIndex)));
 		SkyLine rightSkyLine = mergeSkyLine(new ArrayList<>(skyLineList.subList(size / 2, size)));
 		
-		return leftSkyLine.merge(rightSkyLine);
+		return merger.merge(leftSkyLine, rightSkyLine);
 	}
 	
 }
