@@ -13,8 +13,8 @@ public class MainApp {
 	public static void main(String[] args) {
 		
 		
-		String InputPath = "C:/hw2/input.txt";
-		String OutputPath = "C:/hw2/2013147550.txt";
+		String InputPath = "/Users/Join/dev/homeworks-0302/algo/hw2/input.txt";
+		String OutputPath = "/Users/Join/dev/homeworks-0302/algo/hw2/2013147550.txt";
 		
 		String OutputString = "";
 		
@@ -40,7 +40,7 @@ public class MainApp {
 					String[] coords = inputlist.get(indexOfInput++).split(" ");
 					DoublePair point1 = new DoublePair(Double.parseDouble(coords[0]), Double.parseDouble(coords[1]));
 					DoublePair point2 = new DoublePair(Double.parseDouble(coords[2]), Double.parseDouble(coords[3]));
-					DoublePair point3 = new DoublePair(Double.parseDouble(coords[3]), Double.parseDouble(coords[4]));
+					DoublePair point3 = new DoublePair(Double.parseDouble(coords[4]), Double.parseDouble(coords[5]));
 
 					Line line1 = new Line(point1, point2);
 					Line line2 = new Line(point2, point3);
@@ -100,7 +100,8 @@ public class MainApp {
 		if (size <= 1) {
 			return skyLineList.get(0);
 		}
-		SkyLine leftSkyLine = mergeSkyLine(new ArrayList<>(skyLineList.subList(0, size / 2))); 
+		int midIndex = size / 2;
+		SkyLine leftSkyLine = mergeSkyLine(new ArrayList<>(skyLineList.subList(0, midIndex)));
 		SkyLine rightSkyLine = mergeSkyLine(new ArrayList<>(skyLineList.subList(size / 2, size)));
 		
 		return leftSkyLine.merge(rightSkyLine);

@@ -108,6 +108,17 @@ public class SkyLine {
         return new SkyLine(mergedLines);
     }
 
+    public void print() {
+        for (Line line: lines) {
+            DoublePair point = line.start;
+            String out = "(" + point.x + "," + point.y + ") -- ";
+            point = line.end;
+            out += "(" + point.x + "," + point.y + ")";
+
+            System.out.println(out);
+        }
+    }
+
     public ArrayList<Line> getLines() {
         return lines;
     }

@@ -48,4 +48,22 @@ public class SkyLineTest {
         assertEquals(l6.start, new DoublePair(15.0, 5.0));
     }
 
+    @Test
+    public void testMerge2() throws Exception {
+        ArrayList<Line> list1 = new ArrayList<>();
+        ArrayList<Line> list2 = new ArrayList<>();
+        list1.add(new Line(new DoublePair(0, 0), new DoublePair(1, 2)));
+        list1.add(new Line(new DoublePair(1, 2), new DoublePair(4, 0)));
+
+        list2.add(new Line(new DoublePair(2, 0), new DoublePair(2.5, 3)));
+        list2.add(new Line(new DoublePair(2.5, 3), new DoublePair(3, 0)));
+
+        SkyLine s1 = new SkyLine(list1);
+        SkyLine s2 = new SkyLine(list2);
+
+        SkyLine merged = s1.merge(s2);
+
+        merged.print();
+    }
+
 }
