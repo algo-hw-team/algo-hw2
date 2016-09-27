@@ -1,9 +1,18 @@
 package main;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class MainApp {
 
 	public static void main(String[] args) {
-		/*
+		
+		
 		String InputPath = "C:/hw2/input.txt";
 		String OutputPath = "C:/hw2/2013147550.txt";
 		
@@ -22,9 +31,37 @@ public class MainApp {
 			}
 			
 			//algorithm
-			
+			int indexOfInput = 0;
+			int numOfTest = Integer.parseInt(inputlist.get(indexOfInput++));
+			ArrayList<SkyLine> skyLineList = new ArrayList<>();
+			for (int indexOfTest = 0; indexOfTest < numOfTest; indexOfTest++) {
+				int numOfSkyLine = Integer.parseInt(inputlist.get(indexOfInput++));
+				for (int i = 0; i < numOfSkyLine; i++) {
+					String[] coords = inputlist.get(indexOfInput++).split(" ");
+					DoublePair point1 = new DoublePair(Double.parseDouble(coords[0]), Double.parseDouble(coords[1]));
+					DoublePair point2 = new DoublePair(Double.parseDouble(coords[2]), Double.parseDouble(coords[3]));
+					DoublePair point3 = new DoublePair(Double.parseDouble(coords[3]), Double.parseDouble(coords[4]));
+
+					Line line1 = new Line(point1, point2);
+					Line line2 = new Line(point2, point3);
+					ArrayList<Line> lineList = new ArrayList<>();
+					lineList.add(line1);
+					lineList.add(line2);
+					skyLineList.add(new SkyLine(lineList));
+				}
+				
+				SkyLine result = mergeSkyLine(skyLineList);
+				
+				ArrayList<Line> lines = result.getLines();
+				for (int i = 0; i < lines.size(); i++) {
+					builder.append(lines.get(i).start.x).append(" ").append(lines.get(i).start.y).append(" ");
+				}
+				builder.append(lines.get(lines.size() - 1).end.x).append(" ").append(lines.get(lines.size() - 1).end.y);
+				builder.append(System.getProperty("line.separator"));
+			}
 			
 			OutputString = builder.toString();
+			OutputString = OutputString.trim();
 			bw.write(OutputString);
 			bw.flush();
 			bw.close();
@@ -35,18 +72,38 @@ public class MainApp {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		/*
+		ArrayList<Line> lines = new ArrayList<Line>();
+		lines.add(new Line(new DoublePair(0, 0), new DoublePair(1,2)));
+		lines.add(new Line(new DoublePair(1, 2), new DoublePair(4,0)));
+		SkyLine sl1 = new SkyLine(lines);
+		ArrayList<Line> lines2 = new ArrayList<Line>();
+		lines2.add(new Line(new DoublePair(2, 0), new DoublePair(2.5,3)));
+		lines2.add(new Line(new DoublePair(2.5, 3), new DoublePair(3,3)));
+		SkyLine sl2 = new SkyLine(lines2);
+		SkyLine result = sl1.merge(sl2);
+		
+		StringBuilder builder = new StringBuilder();
+		lines = result.getLines();
+		for (int i = 0; i < lines.size(); i++) {
+			builder.append(lines.get(i).start.x).append(" ").append(lines.get(i).start.y).append(" ");
+		}
+		builder.append(lines.get(lines.size() - 1).end.x).append(" ").append(lines.get(lines.size() - 1).end.y);
+		builder.append(System.getProperty("line.separator"));
+		System.out.println(builder.toString());
 		*/
-
-		//테스트 코드
-		//선분 두 개 생성해서 교점 출력
-		DoublePair p1 = new DoublePair(1, 2);
-		DoublePair p2 = new DoublePair(4, 0);
-		Line l1 = new Line(p1, p2);
-		DoublePair p3 = new DoublePair(2, 0);
-		DoublePair p4 = new DoublePair(2, 2);
-		Line l2 = new Line(p3, p4);
-		DoublePair inter = l1.hasIntersect(l2);
-		System.out.println(inter.x + " " + inter.y);
 	}
-
+	
+	private static SkyLine mergeSkyLine (ArrayList<SkyLine> skyLineList) {
+		
+		int size = skyLineList.size();
+		if (size <= 1) {
+			return skyLineList.get(0);
+		}
+		SkyLine leftSkyLine = mergeSkyLine(new ArrayList<>(skyLineList.subList(0, size / 2))); 
+		SkyLine rightSkyLine = mergeSkyLine(new ArrayList<>(skyLineList.subList(size / 2, size)));
+		
+		return leftSkyLine.merge(rightSkyLine);
+	}
+	
 }
