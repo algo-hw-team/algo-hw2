@@ -26,6 +26,7 @@ public class SkyLineMerger {
         // source: 비교 기준이 될 skyline
         // target: source와 비교할 skyline
         // upper: 현재 위에 있는 skyline
+        // lower: 현재 아래에 있는 skyline
 
         // initialize
         if (s1.skyline.getStartingX() <= s2.skyline.getStartingX()) {
@@ -36,10 +37,11 @@ public class SkyLineMerger {
             lower = s1;
         }
 
+        // 초기설정: source를 위에 있는 skyline으로 설정
         source = upper;
         target = lower;
 
-        // 예외처리: 두 skyline이 만나지 않는 경우
+        // 예외상황: 두 skyline이 만나지 않는 경우
         double sourceEndingX = source.skyline.getEndingX();
         double targetStartingX = target.skyline.getStartingX();
 
@@ -64,14 +66,16 @@ public class SkyLineMerger {
             DoublePair intersection = l1.hasIntersect(l2);
 
             if (intersection != null) {
-                Line segmentToInsert = new Line(upper.currentLine.start, intersection);
-                mergedLines.add(segmentToInsert);
 
+                // 두 line이 시작점에서 만났을 경우, 기울기에 따라 upper, lower 변경
                 if (source.currentLine.start.equals(intersection) ||
                         target.currentLine.start.equals(intersection)) {
                     swapUpperLowerByVelocity();
 
                 } else {
+                    // 위에 있는 skyline ~ 교점까지의 line을 mergedLines에 넣음
+                    Line segmentToInsert = new Line(upper.currentLine.start, intersection);
+                    mergedLines.add(segmentToInsert);
                     source.currentLine.start = intersection;
                     target.currentLine.start = intersection;
 
@@ -85,14 +89,16 @@ public class SkyLineMerger {
                 swapSourceTarget();
             }
 
-            // if target is upper
+            // target이 upper일 경우, mergedLines에 target을 넣는다.
             if ((target == upper) && !target.currentLine.isEmptyLine()) {
                 mergedLines.add(target.currentLine);
             }
 
+            // target의 currentLine을 다음 line으로 변경
             target.next();
         }
 
+        // 아직 upper에 line이 남아있으면 mergedLines에 전부 추가
         if (!upper.isFinished()) {
             for (int i = upper.index; i < upper.size; i++) {
                 mergedLines.add(upper.skyline.getLine(i));
