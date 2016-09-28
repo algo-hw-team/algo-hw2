@@ -59,4 +59,16 @@ public class SkyLine {
     public double getStartingX() {
         return lines.get(0).start.x;
     }
+
+    public double getEndingX() {
+        return getLastLine().end.x;
+    }
+
+    /**
+     * skyLine의 마지막 line 반환
+     * @return
+     */
+    public Line getLastLine() {
+        return lines.get(size() - 1);
+    }
 }

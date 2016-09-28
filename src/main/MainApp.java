@@ -15,10 +15,9 @@ import java.util.ArrayList;
 public class MainApp {
 
 	public static void main(String[] args) {
-		
-		
-		String InputPath = "c:/hw2/input.txt";
-		String OutputPath = "c:/hw2/2013147550.txt";
+
+		String InputPath = "/Users/Join/dev/homeworks-0302/algo/hw2/input.txt";
+		String OutputPath = "/Users/Join/dev/homeworks-0302/algo/hw2/2013147550.txt";
 		
 		String OutputString = "";
 		
@@ -110,6 +109,8 @@ public class MainApp {
 		int midIndex = size / 2;
 		SkyLine leftSkyLine = mergeSkyLine(new ArrayList<>(skyLineList.subList(0, midIndex)));
 		SkyLine rightSkyLine = mergeSkyLine(new ArrayList<>(skyLineList.subList(size / 2, size)));
+
+
 		
 		return merger.merge(leftSkyLine, rightSkyLine);
 	}

@@ -35,6 +35,25 @@ public class SkyLineMerger {
         source = upper;
         target = lower;
 
+        // 예외처리: 두 skyLine이 만나지 않는 경우
+        double sourceEndingX = source.skyLine.getEndingX();
+        double targetStartingX = target.skyLine.getStartingX();
+
+        if (sourceEndingX <= targetStartingX) {
+            mergedLines.addAll(source.skyLine.getLines());
+
+            // source의 끝좌표와 target의 시작좌표가 다르면, 두 skyline을 이어주는 line을 추가로 넣어준다.
+            if (sourceEndingX != targetStartingX) {
+                Line segment = new Line(new DoublePair(sourceEndingX, 0),
+                        new DoublePair(targetStartingX, 0));
+                mergedLines.add(segment);
+            }
+
+            mergedLines.addAll(target.skyLine.getLines());
+
+            return new SkyLine(mergedLines);
+        }
+
         while (!source.isFinished() && !target.isFinished()) {
             Line l1 = source.currentLine;
             Line l2 = target.currentLine;
