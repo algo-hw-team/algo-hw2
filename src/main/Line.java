@@ -45,7 +45,11 @@ public class Line {
 	
 
 	public DoublePair start, end;
-	private double slope;
+	public double slope;
+
+	public boolean isEmptyLine() {
+        return (start.x == end.x) && (start.y == end.y);
+    }
 	
 	private double calSlope(DoublePair a, DoublePair b) {
 		

@@ -44,11 +44,17 @@ public class SkyLineMerger {
                 Line segmentToInsert = new Line(upper.currentLine.start, intersection);
                 mergedLines.add(segmentToInsert);
 
-                source.currentLine.start = intersection;
-                target.currentLine.start = intersection;
+                if (source.currentLine.start.equals(intersection) ||
+                        target.currentLine.start.equals(intersection)) {
+                    swapUpperLowerByVelocity();
 
-                // change upper & lower
-                swapUpperLower();
+                } else {
+                    source.currentLine.start = intersection;
+                    target.currentLine.start = intersection;
+
+                    // change upper & lower
+                    swapUpperLower();
+                }
             }
 
             // if source & target needs to be changed
@@ -57,7 +63,7 @@ public class SkyLineMerger {
             }
 
             // if target is upper
-            if (target == upper) {
+            if ((target == upper) && !target.currentLine.isEmptyLine()) {
                 mergedLines.add(target.currentLine);
             }
 
@@ -89,5 +95,11 @@ public class SkyLineMerger {
         SkyLineContainer temp = source;
         source = target;
         target = temp;
+    }
+
+    private void swapUpperLowerByVelocity() {
+        if (upper.currentLine.slope < lower.currentLine.slope) {
+            swapUpperLower();
+        }
     }
 }
