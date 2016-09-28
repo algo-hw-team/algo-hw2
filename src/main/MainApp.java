@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MainApp {
@@ -16,8 +17,8 @@ public class MainApp {
 	public static void main(String[] args) {
 		
 		
-		String InputPath = "/Users/Join/dev/homeworks-0302/algo/hw2/input.txt";
-		String OutputPath = "/Users/Join/dev/homeworks-0302/algo/hw2/2013147550.txt";
+		String InputPath = "c:/hw2/input.txt";
+		String OutputPath = "c:/hw2/2013147550.txt";
 		
 		String OutputString = "";
 		
@@ -37,6 +38,7 @@ public class MainApp {
 			int indexOfInput = 0;
 			int numOfTest = Integer.parseInt(inputlist.get(indexOfInput++));
 			ArrayList<SkyLine> skyLineList = new ArrayList<>();
+			DecimalFormat format = new DecimalFormat("0.#");
 			for (int indexOfTest = 0; indexOfTest < numOfTest; indexOfTest++) {
 				int numOfSkyLine = Integer.parseInt(inputlist.get(indexOfInput++));
 				for (int i = 0; i < numOfSkyLine; i++) {
@@ -57,9 +59,9 @@ public class MainApp {
 				
 				ArrayList<Line> lines = result.getLines();
 				for (int i = 0; i < lines.size(); i++) {
-					builder.append(lines.get(i).start.x).append(" ").append(lines.get(i).start.y).append(" ");
+					builder.append(format.format(Math.abs(lines.get(i).start.x))).append(" ").append(format.format(Math.abs(lines.get(i).start.y))).append(" ");
 				}
-				builder.append(lines.get(lines.size() - 1).end.x).append(" ").append(lines.get(lines.size() - 1).end.y);
+				builder.append(format.format(Math.abs(lines.get(lines.size() - 1).end.x))).append(" ").append(format.format(Math.abs(lines.get(lines.size() - 1).end.y)));
 				builder.append(System.getProperty("line.separator"));
 			}
 			

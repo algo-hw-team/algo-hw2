@@ -2,7 +2,5 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Arquillian JUnit:Release"/>
-	<classpathentry kind="var" path="APPLICATION_HOME_DIR/lib/groovy-all-2.4.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
