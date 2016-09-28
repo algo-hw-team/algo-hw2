@@ -4,15 +4,15 @@ import main.Line;
 
 class SkyLineContainer {
 
-    public SkyLine skyLine = null;
+    public Skyline skyline = null;
     public int index = 0;
     public int size = 0;
     public Line currentLine;
 
-    public SkyLineContainer(SkyLine _skyLine) {
-        skyLine = _skyLine;
-        size = skyLine.size();
-        currentLine = skyLine.getLine(index);
+    public SkyLineContainer(Skyline _skyline) {
+        skyline = _skyline;
+        size = skyline.size();
+        currentLine = skyline.getLine(index);
     }
 
     /**
@@ -22,7 +22,7 @@ class SkyLineContainer {
         index++;
 
         if (!isFinished()) {
-            currentLine = skyLine.getLine(index);
+            currentLine = skyline.getLine(index);
         }
     }
 

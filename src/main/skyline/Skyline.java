@@ -5,11 +5,11 @@ import main.Line;
 
 import java.util.ArrayList;
 
-public class SkyLine {
+public class Skyline {
 
     private ArrayList<Line> lines;
 
-    public SkyLine(ArrayList<Line> _lines) {
+    public Skyline(ArrayList<Line> _lines) {
         lines = new ArrayList<Line>(_lines);
     }
 
@@ -53,7 +53,7 @@ public class SkyLine {
     }
 
     /**
-     * skyLine 시잠점의 x 좌표 반환
+     * skyline 시잠점의 x 좌표 반환
      * @return
      */
     public double getStartingX() {
