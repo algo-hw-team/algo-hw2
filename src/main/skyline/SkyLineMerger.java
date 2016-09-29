@@ -13,18 +13,23 @@ public class SkyLineMerger {
     private SkyLineContainer upper, lower, source, target;
 
     /**
-     * 두 skyLine을 merge한다.
-     * @param _s1 skyLine 1
-     * @param _s2 skyLine 2
-     * @return SkyLine merged
+     * 두 skyline을 merge한다.
+     * @param _s1 skyline 1
+     * @param _s2 skyline 2
+     * @return Skyline merged
      */
-    public SkyLine merge(SkyLine _s1, SkyLine _s2) {
+    public Skyline merge(Skyline _s1, Skyline _s2) {
         SkyLineContainer s1 = new SkyLineContainer(_s1);
         SkyLineContainer s2 = new SkyLineContainer(_s2);
         ArrayList<Line> mergedLines = new ArrayList<>();
 
+        // source: 비교 기준이 될 skyline
+        // target: source와 비교할 skyline
+        // upper: 현재 위에 있는 skyline
+        // lower: 현재 아래에 있는 skyline
+
         // initialize
-        if (s1.skyLine.getStartingX() <= s2.skyLine.getStartingX()) {
+        if (s1.skyline.getStartingX() <= s2.skyline.getStartingX()) {
             upper = s1;
             lower = s2;
         } else {
@@ -32,8 +37,28 @@ public class SkyLineMerger {
             lower = s1;
         }
 
+        // 초기설정: source를 위에 있는 skyline으로 설정
         source = upper;
         target = lower;
+
+        // 예외상황: 두 skyline이 만나지 않는 경우
+        double sourceEndingX = source.skyline.getEndingX();
+        double targetStartingX = target.skyline.getStartingX();
+
+        if (sourceEndingX <= targetStartingX) {
+            mergedLines.addAll(source.skyline.getLines());
+
+            // source의 끝좌표와 target의 시작좌표가 다르면, 두 skyline을 이어주는 line을 추가로 넣어준다.
+            if (sourceEndingX != targetStartingX) {
+                Line segment = new Line(new DoublePair(sourceEndingX, 0),
+                        new DoublePair(targetStartingX, 0));
+                mergedLines.add(segment);
+            }
+
+            mergedLines.addAll(target.skyline.getLines());
+
+            return new Skyline(mergedLines);
+        }
 
         while (!source.isFinished() && !target.isFinished()) {
             Line l1 = source.currentLine;
@@ -41,14 +66,22 @@ public class SkyLineMerger {
             DoublePair intersection = l1.hasIntersect(l2);
 
             if (intersection != null) {
-                Line segmentToInsert = new Line(upper.currentLine.start, intersection);
-                mergedLines.add(segmentToInsert);
 
-                source.currentLine.start = intersection;
-                target.currentLine.start = intersection;
+                // 두 line이 시작점에서 만났을 경우, 기울기에 따라 upper, lower 변경
+                if (source.currentLine.start.equals(intersection) ||
+                        target.currentLine.start.equals(intersection)) {
+                    swapUpperLowerByVelocity();
 
-                // change upper & lower
-                swapUpperLower();
+                } else {
+                    // 위에 있는 skyline ~ 교점까지의 line을 mergedLines에 넣음
+                    Line segmentToInsert = new Line(upper.currentLine.start, intersection);
+                    mergedLines.add(segmentToInsert);
+                    source.currentLine.start = intersection;
+                    target.currentLine.start = intersection;
+
+                    // change upper & lower
+                    swapUpperLower();
+                }
             }
 
             // if source & target needs to be changed
@@ -56,25 +89,27 @@ public class SkyLineMerger {
                 swapSourceTarget();
             }
 
-            // if target is upper
-            if (target == upper) {
+            // target이 upper일 경우, mergedLines에 target을 넣는다.
+            if ((target == upper) && !target.currentLine.isEmptyLine()) {
                 mergedLines.add(target.currentLine);
             }
 
+            // target의 currentLine을 다음 line으로 변경
             target.next();
         }
 
+        // 아직 upper에 line이 남아있으면 mergedLines에 전부 추가
         if (!upper.isFinished()) {
             for (int i = upper.index; i < upper.size; i++) {
-                mergedLines.add(upper.skyLine.getLine(i));
+                mergedLines.add(upper.skyline.getLine(i));
             }
         }
 
-        return new SkyLine(mergedLines);
+        return new Skyline(mergedLines);
     }
 
     /**
-     * 두 skyLine의 위/아래 변경
+     * 두 skyline의 위/아래 변경
      */
     private void swapUpperLower() {
         SkyLineContainer temp = upper;
@@ -83,11 +118,17 @@ public class SkyLineMerger {
     }
 
     /**
-     * 두 skyLine 중 비교 기준점이 될 skyLine 변경
+     * 두 skyline 중 비교 기준점이 될 skyline 변경
      */
     private void swapSourceTarget() {
         SkyLineContainer temp = source;
         source = target;
         target = temp;
+    }
+
+    private void swapUpperLowerByVelocity() {
+        if (upper.currentLine.slope < lower.currentLine.slope) {
+            swapUpperLower();
+        }
     }
 }

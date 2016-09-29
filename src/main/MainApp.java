@@ -1,6 +1,6 @@
 package main;
 
-import main.skyline.SkyLine;
+import main.skyline.Skyline;
 import main.skyline.SkyLineMerger;
 
 import java.io.BufferedReader;
@@ -15,10 +15,9 @@ import java.util.ArrayList;
 public class MainApp {
 
 	public static void main(String[] args) {
-		
-		
-		String InputPath = "c:/hw2/input.txt";
-		String OutputPath = "c:/hw2/2013147550.txt";
+
+		String InputPath = "/Users/Join/dev/homeworks-0302/algo/hw2/input.txt";
+		String OutputPath = "/Users/Join/dev/homeworks-0302/algo/hw2/2013147550.txt";
 		
 		String OutputString = "";
 		
@@ -40,7 +39,7 @@ public class MainApp {
 			DecimalFormat format = new DecimalFormat("0.#");
 			for (int indexOfTest = 0; indexOfTest < numOfTest; indexOfTest++) {
 				int numOfSkyLine = Integer.parseInt(inputlist.get(indexOfInput++));
-				ArrayList<SkyLine> skyLineList = new ArrayList<>();
+				ArrayList<Skyline> skylineList = new ArrayList<>();
 				for (int i = 0; i < numOfSkyLine; i++) {
 					String[] coords = inputlist.get(indexOfInput++).split(" ");
 					DoublePair point1 = new DoublePair(Double.parseDouble(coords[0]), Double.parseDouble(coords[1]));
@@ -52,10 +51,10 @@ public class MainApp {
 					ArrayList<Line> lineList = new ArrayList<>();
 					lineList.add(line1);
 					lineList.add(line2);
-					skyLineList.add(new SkyLine(lineList));
+					skylineList.add(new Skyline(lineList));
 				}
 				
-				SkyLine result = mergeSkyLine(skyLineList);
+				Skyline result = mergeSkyLine(skylineList);
 				
 				ArrayList<Line> lines = result.getLines();
 				for (int i = 0; i < lines.size(); i++) {
@@ -81,12 +80,12 @@ public class MainApp {
 		ArrayList<Line> lines = new ArrayList<Line>();
 		lines.add(new Line(new DoublePair(0, 0), new DoublePair(1,2)));
 		lines.add(new Line(new DoublePair(1, 2), new DoublePair(4,0)));
-		SkyLine sl1 = new SkyLine(lines);
+		Skyline sl1 = new Skyline(lines);
 		ArrayList<Line> lines2 = new ArrayList<Line>();
 		lines2.add(new Line(new DoublePair(2, 0), new DoublePair(2.5,3)));
 		lines2.add(new Line(new DoublePair(2.5, 3), new DoublePair(3,3)));
-		SkyLine sl2 = new SkyLine(lines2);
-		SkyLine result = sl1.merge(sl2);
+		Skyline sl2 = new Skyline(lines2);
+		Skyline result = sl1.merge(sl2);
 		
 		StringBuilder builder = new StringBuilder();
 		lines = result.getLines();
@@ -101,17 +100,19 @@ public class MainApp {
 
 	private static SkyLineMerger merger = new SkyLineMerger();
 	
-	private static SkyLine mergeSkyLine (ArrayList<SkyLine> skyLineList) {
+	private static Skyline mergeSkyLine (ArrayList<Skyline> skylineList) {
 		
-		int size = skyLineList.size();
+		int size = skylineList.size();
 		if (size <= 1) {
-			return skyLineList.get(0);
+			return skylineList.get(0);
 		}
 		int midIndex = size / 2;
-		SkyLine leftSkyLine = mergeSkyLine(new ArrayList<>(skyLineList.subList(0, midIndex)));
-		SkyLine rightSkyLine = mergeSkyLine(new ArrayList<>(skyLineList.subList(size / 2, size)));
+		Skyline leftSkyline = mergeSkyLine(new ArrayList<>(skylineList.subList(0, midIndex)));
+		Skyline rightSkyline = mergeSkyLine(new ArrayList<>(skylineList.subList(size / 2, size)));
+
+
 		
-		return merger.merge(leftSkyLine, rightSkyLine);
+		return merger.merge(leftSkyline, rightSkyline);
 	}
 	
 }
