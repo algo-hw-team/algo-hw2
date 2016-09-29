@@ -7,6 +7,11 @@ public class DoublePair {
 		x = _x;
 		y = _y;
 	}
+
+	public DoublePair(DoublePair dp) {
+        x = dp.x;
+        y = dp.y;
+    }
 	
 	@Override
 	public boolean equals(Object input) {

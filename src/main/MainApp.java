@@ -63,7 +63,7 @@ public class MainApp {
 				builder.append(format.format(Math.abs(lines.get(lines.size() - 1).end.x))).append(" ").append(format.format(Math.abs(lines.get(lines.size() - 1).end.y)));
 				builder.append(System.getProperty("line.separator"));
 			}
-			
+
 			OutputString = builder.toString();
 			OutputString = OutputString.trim();
 			bw.write(OutputString);
@@ -108,11 +108,9 @@ public class MainApp {
 		}
 		int midIndex = size / 2;
 		Skyline leftSkyline = mergeSkyLine(new ArrayList<>(skylineList.subList(0, midIndex)));
-		Skyline rightSkyline = mergeSkyLine(new ArrayList<>(skylineList.subList(size / 2, size)));
+		Skyline rightSkyline = mergeSkyLine(new ArrayList<>(skylineList.subList(midIndex, size)));
 
-
-		
-		return merger.merge(leftSkyline, rightSkyline);
+        return merger.merge(leftSkyline, rightSkyline);
 	}
 	
 }

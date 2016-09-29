@@ -1,7 +1,8 @@
 package main;
 
 public class Line {
-	
+
+	public final static double INFINITY =  999999;
 	
 	/**
 	 * 생성자
@@ -13,6 +14,12 @@ public class Line {
 		this.end = _end;
 		this.slope = calSlope(_start, _end);
 	}
+
+	public Line(Line l) {
+        this.start = new DoublePair(l.start);
+        this.end = new DoublePair(l.end);
+        this.slope = l.slope;
+    }
 	
 	
 	/**
@@ -20,12 +27,12 @@ public class Line {
 	 * @param other
 	 * @return
 	 */
-	public DoublePair hasIntersect(Line other) {
+	public DoublePair getIntersection(Line other) {
 		if (this.slope == other.slope) {
 			return null;
 		} else {
-			double x = calX(this, other);
-			double y = calY(this, other);
+			double x = roundDouble(calX(this, other), 4);
+			double y = roundDouble(calY(this, other), 4);
 			DoublePair result = new DoublePair(x, y);
 			if (this.IsOnLine(result) && other.IsOnLine(result)) {
 				return result;
@@ -42,6 +49,14 @@ public class Line {
 	public double getSlope() {
 		return this.slope;
 	}
+
+	public void swapStartEnd() {
+        DoublePair temp = start;
+        this.start = end;
+        this.end = temp;
+
+        this.slope = calSlope(this.start, this.end);
+    }
 	
 
 	public DoublePair start, end;
@@ -51,12 +66,18 @@ public class Line {
         return (start.x == end.x) && (start.y == end.y);
     }
 	
-	private double calSlope(DoublePair a, DoublePair b) {
+	private static double calSlope(DoublePair a, DoublePair b) {
 		
-		double dx = a.x - b.x;
-		double dy = a.y - b.y;
-		
-		return (Math.atan2(dy, dx)*180)/Math.PI;
+		double dx = b.x - a.x;
+		double dy = b.y - a.y;
+
+        if (dx == 0) {
+            return dy > 0 ?
+                    INFINITY :
+                    -INFINITY;
+        }
+
+        return dy / dx;
 	}
 	
 	private double calX (Line a, Line b) {
@@ -94,4 +115,15 @@ public class Line {
 		
 		return (distance1 <= length && distance2 <= length);
 	}
+
+	public void print() {
+        String str = "(" +this.start.x + "," + this.start.y + ")-";
+        str += "(" +this.end.x + "," + this.end.y + ")";
+
+        System.out.println(str);
+    }
+
+    private static double roundDouble(double a, int n){
+        return Math.round(a * Math.pow(10,n)) / Math.pow(10,n);
+    }
 }

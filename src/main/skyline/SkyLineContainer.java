@@ -18,12 +18,12 @@ class SkyLineContainer {
     /**
      * currentLine을 skyLine의 다음 element로 설정
      */
-    public void next() {
+    public void pop() {
         index++;
 
-        if (!isFinished()) {
-            currentLine = skyline.getLine(index);
-        }
+        currentLine = isFinished() ?
+                null :
+                skyline.getLine(index);
     }
 
     /**
