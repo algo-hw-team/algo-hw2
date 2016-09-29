@@ -13,14 +13,14 @@ public class SkyLineMerger {
     // for internal calculation
     private SkyLineContainer upper, lower;
     private ArrayList<Line> mergedLines = null;
-    private boolean reset;
+    private boolean hasDelayedSegment;
     private Line delayedSegment;
     private boolean skipPop;
 
     public Skyline merge(Skyline _s1, Skyline _s2) {
         SkyLineContainer s1 = new SkyLineContainer(_s1);
         SkyLineContainer s2 = new SkyLineContainer(_s2);
-        reset = false;
+        hasDelayedSegment = false;
         delayedSegment = null;
         skipPop = false;
         mergedLines = new ArrayList<>();
@@ -51,8 +51,8 @@ public class SkyLineMerger {
                 continue;
             }
 
-            // handle reset
-            if (reset) {
+            // handle delayed segment
+            if (hasDelayedSegment) {
 
                 // case 1: upper & lower needs to be recalculated
                 boolean hasChanged = upperLine.slope <= lowerLine.slope;
@@ -63,7 +63,7 @@ public class SkyLineMerger {
                     mergedLines.add(delayedSegment);
                 }
 
-                reset = false;
+                hasDelayedSegment = false;
                 delayedSegment = null;
 
             }
@@ -74,16 +74,20 @@ public class SkyLineMerger {
                 continue;
             }
 
+            // remove one line from current two lines
+
             SkyLineContainer skylineToPop = (s1.currentLine.end.x <= s2.currentLine.end.x) ?
                     s1 :
                     s2;
 
-            if (skylineToPop == upper && !reset) {
+            if (skylineToPop == upper && !hasDelayedSegment) {
                 mergedLines.add(skylineToPop.currentLine);
             }
 
             skylineToPop.pop();
         }
+
+        // handle any left lines
 
         if (delayedSegment != null) {
             mergedLines.add(delayedSegment);
@@ -107,7 +111,7 @@ public class SkyLineMerger {
 
         return new Skyline(mergedLines);
     }
-
+    
     private void handleIntersection() {
         Line upperLine = upper.currentLine;
         Line lowerLine = lower.currentLine;
@@ -138,7 +142,7 @@ public class SkyLineMerger {
             if (upperLine.start.equals(lowerLine.start)) {
                 // case 3: one line includes other line
                 // set shorter one to be lower
-                reset = true;
+                hasDelayedSegment = true;
 
                 if (upperLine.end.x < lowerLine.end.x) {
                     swapUpperLower();
@@ -174,7 +178,7 @@ public class SkyLineMerger {
                 upperLine.start = intersection;
             }
 
-            reset = true;
+            hasDelayedSegment = true;
 
         } else {
             Line segmentToInsert = new Line(upper.currentLine.start, intersection);
