@@ -87,7 +87,7 @@ public class Line {
 				/((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)));
 	}
 	
-	private boolean IsOnLine (DoublePair point) {
+	public boolean IsOnLine (DoublePair point) {
 		double length = Math.sqrt(Math.pow((this.start.x - this.end.x),2) + Math.pow((this.start.y - this.end.y),2));
 		double distance1 = Math.sqrt(Math.pow((this.start.x - point.x),2) + Math.pow((this.start.y - point.y),2));
 		double distance2 = Math.sqrt(Math.pow((point.x - this.end.x),2) + Math.pow((point.y - this.end.y),2));
