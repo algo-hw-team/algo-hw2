@@ -37,10 +37,10 @@ public class MainApp {
 			//algorithm
 			int indexOfInput = 0;
 			int numOfTest = Integer.parseInt(inputlist.get(indexOfInput++));
-			ArrayList<SkyLine> skyLineList = new ArrayList<>();
 			DecimalFormat format = new DecimalFormat("0.#");
 			for (int indexOfTest = 0; indexOfTest < numOfTest; indexOfTest++) {
 				int numOfSkyLine = Integer.parseInt(inputlist.get(indexOfInput++));
+				ArrayList<SkyLine> skyLineList = new ArrayList<>();
 				for (int i = 0; i < numOfSkyLine; i++) {
 					String[] coords = inputlist.get(indexOfInput++).split(" ");
 					DoublePair point1 = new DoublePair(Double.parseDouble(coords[0]), Double.parseDouble(coords[1]));
