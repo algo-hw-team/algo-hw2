@@ -16,8 +16,8 @@ public class MainApp {
 
 	public static void main(String[] args) {
 
-		String InputPath = "/Users/Join/dev/homeworks-0302/algo/hw2/input.txt";
-		String OutputPath = "/Users/Join/dev/homeworks-0302/algo/hw2/2013147550.txt";
+		String InputPath = "c:/hw2/input.txt";
+		String OutputPath = "c:/hw2/2013147550.txt";
 		
 		String OutputString = "";
 		
@@ -34,6 +34,7 @@ public class MainApp {
 			}
 			
 			//algorithm
+			//삼각형 하나를 skyline으로 만들어서 n개의 skyline을 merge한다.
 			int indexOfInput = 0;
 			int numOfTest = Integer.parseInt(inputlist.get(indexOfInput++));
 			DecimalFormat format = new DecimalFormat("0.#");
@@ -76,30 +77,11 @@ public class MainApp {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*
-		ArrayList<Line> lines = new ArrayList<Line>();
-		lines.add(new Line(new DoublePair(0, 0), new DoublePair(1,2)));
-		lines.add(new Line(new DoublePair(1, 2), new DoublePair(4,0)));
-		Skyline sl1 = new Skyline(lines);
-		ArrayList<Line> lines2 = new ArrayList<Line>();
-		lines2.add(new Line(new DoublePair(2, 0), new DoublePair(2.5,3)));
-		lines2.add(new Line(new DoublePair(2.5, 3), new DoublePair(3,3)));
-		Skyline sl2 = new Skyline(lines2);
-		Skyline result = sl1.merge(sl2);
-		
-		StringBuilder builder = new StringBuilder();
-		lines = result.getLines();
-		for (int i = 0; i < lines.size(); i++) {
-			builder.append(lines.get(i).start.x).append(" ").append(lines.get(i).start.y).append(" ");
-		}
-		builder.append(lines.get(lines.size() - 1).end.x).append(" ").append(lines.get(lines.size() - 1).end.y);
-		builder.append(System.getProperty("line.separator"));
-		System.out.println(builder.toString());
-		*/
 	}
 
 	private static SkyLineMerger merger = new SkyLineMerger();
 	
+	//divide and conquer 구현 재귀함수
 	private static Skyline mergeSkyLine (ArrayList<Skyline> skylineList) {
 		
 		int size = skylineList.size();
